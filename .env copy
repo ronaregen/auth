@@ -1,0 +1,7 @@
+SECRET={YOUR-JWT-SECRET-KEY}
+
+DB_HOST="yourserver"
+DB_PORT="5432" #default port postgres
+DB_USER="youruser"
+DB_PASSWORD="yourpassword"
+DB_NAME="yourdatabase"
