@@ -61,7 +61,7 @@ func ReqAuth(c *fiber.Ctx) error {
 			})
 		}
 
-		c.Locals("user", user)
+		c.Locals("sub", claims["sub"])
 		return c.Next()
 	} else {
 		return c.Status(http.StatusUnauthorized).JSON(&fiber.Map{

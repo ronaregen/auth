@@ -1,8 +1,15 @@
 version: '3.9'
 
+networks:
+  networks1:
+    name: sigamma_v2_sigamma_v2
+    external: true
+
 services:
   auth:
     build: .
     container_name: go_auth
     ports:
       - "5000:5000"
+    networks:
+      - networks1
