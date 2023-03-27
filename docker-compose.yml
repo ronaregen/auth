@@ -8,6 +8,7 @@ networks:
 services:
   auth:
     build: .
+    image: go-auth:v1
     container_name: go_auth
     ports:
       - "5000:5000"
