@@ -2,7 +2,7 @@ version: '3.9'
 
 networks:
   networks1:
-    name: sigamma_v2_sigamma_v2
+    name: sigamma
     external: true
 
 services:
