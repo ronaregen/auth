@@ -40,41 +40,6 @@ type responseStruct struct {
 	} `json:"data"`
 }
 
-// func Signup(c *fiber.Ctx) error {
-// 	u := new(userStruct)
-
-// 	if err := c.BodyParser(u); err != nil {
-// 		return c.Status(http.StatusBadRequest).JSON(&fiber.Map{
-// 			"success": false,
-// 			"message": err.Error(),
-// 		})
-// 	}
-
-// 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), 10)
-
-// 	if err != nil {
-// 		return c.Status(http.StatusBadRequest).JSON(&fiber.Map{
-// 			"success": false,
-// 			"message": err.Error(),
-// 		})
-// 	}
-
-// 	user := models.User{Username: u.Username, Name: u.Name, Password: string(hash)}
-// 	result := initializers.DB.Create(&user)
-
-// 	if result.Error != nil {
-// 		return c.Status(400).JSON(&fiber.Map{
-// 			"success": false,
-// 			"message": result.Error.Error(),
-// 		})
-// 	}
-
-// 	return c.Status(200).JSON(&fiber.Map{
-// 		"success": true,
-// 		"user":    user,
-// 	})
-// }
-
 func Signin(c *fiber.Ctx) error {
 	u := new(loginStruct)
 
@@ -109,6 +74,7 @@ func Signin(c *fiber.Ctx) error {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": user.ID,
+		"rol": user.UserRoleId,
 		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
 	})
 
@@ -140,7 +106,7 @@ func Validate(c *fiber.Ctx) error {
 	sub := c.Locals("sub")
 
 	var user models.User
-	initializers.DB.Preload("UserRole").Preload("UserInstance").Find(&user, sub)
+	initializers.DB.Preload("UserRole").Preload("UserInstance").Preload("WorkGroup").Preload("Province").Preload("City").Preload("District").Preload("Ward").Find(&user, sub)
 
 	return c.Status(200).JSON(&fiber.Map{
 		"rescode": 200,
